@@ -12,11 +12,14 @@ public class FindMovesState extends GameState {
     @Override
     public Player doPlay(Board board) {
         System.out.println("FIND MOVES STATE");
-        player.clearMoves(player.getPieces());
+        player.clearMoves();
         if (!player.findJumps()) {
             player.findMoves();
+            player.changeState(new FromMoveState(player));
+        } else {
+            player.changeState(new FromJumpState(player));
         }
-        player.changeState(new FromState(player));
+
         return player;
     }
 

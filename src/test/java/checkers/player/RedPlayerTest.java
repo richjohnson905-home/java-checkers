@@ -35,7 +35,7 @@ public class RedPlayerTest {
         assertEquals(" RE 3", p4.testGetDisplayString());
         System.out.println(board);
         System.out.println("======================================");
-        testObject.setMoveFromNumber(1, testObject.getPieces());
+        testObject.setMoveFromNumber(1);
         assertEquals(" RED ", p1.testGetDisplayString());
         assertEquals(" R*D ", p2.testGetDisplayString());
         assertEquals(" RED ", p3.testGetDisplayString());
@@ -46,7 +46,7 @@ public class RedPlayerTest {
         assertEquals(" _0_ ", e2.testGetDisplayString());
         System.out.println(board);
         System.out.println("======================================");
-        testObject.setMoveToNumber(0, testObject.getPieces());
+        testObject.setMoveToNumber(0);
         assertEquals(" ___ ", e1.testGetDisplayString());
         assertEquals(" _*_ ", e2.testGetDisplayString());
     }
@@ -55,6 +55,25 @@ public class RedPlayerTest {
     public void testCoordMap() {
         Coord first = new Coord(0, 1);
         assertEquals(board.getNumber(first).intValue(), 1);
+    }
+
+    @Test
+    public void testRedJump() {
+        helper.initRedJump();
+        System.out.println(board);
+        System.out.println("======================================");
+        assertEquals(true, testObject.findJumps());
+        assertEquals(1, board.testGetByNumber(10).getJumps().size());
+        System.out.println(board);
+        System.out.println("======================================");
+        testObject.setJumpFromNumber(0);
+        System.out.println(board);
+        System.out.println("======================================");
+        testObject.setJumpToNumber(0);
+        System.out.println(board);
+        System.out.println("======================================");
+        testObject.getTheJump().doJump(board);
+        System.out.println(board);
     }
 
 }

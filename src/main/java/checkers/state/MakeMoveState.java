@@ -7,9 +7,9 @@ import checkers.player.Player;
 
 import java.util.Scanner;
 
-public class MoveState extends GameState {
+public class MakeMoveState extends GameState {
 
-    MoveState(Player player) {
+    MakeMoveState(Player player) {
         super(player);
     }
 

@@ -55,6 +55,14 @@ public class TestHelper {
         }
     }
 
+    void initRedJump() {
+        for (int i = 1; i < 33; i++) {
+            addEmpty(new EmptyPiece(board.getCoord(i)));
+        }
+        addRed(new RedPiece(board.getCoord(10)));
+        addBlack(new BlackPiece(board.getCoord(14)));
+    }
+
     private RedPiece addRed(RedPiece redPiece) {
         red.initPiece(redPiece);
         return redPiece;

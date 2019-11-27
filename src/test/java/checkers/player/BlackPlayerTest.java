@@ -34,7 +34,7 @@ public class BlackPlayerTest {
         assertEquals("BLA 3", p4.testGetDisplayString());
         System.out.println(board);
         System.out.println("======================================");
-        testObject.setMoveFromNumber(1, testObject.getPieces());
+        testObject.setMoveFromNumber(1);
         assertEquals("BLACK", p1.testGetDisplayString());
         assertEquals("BL*CK", p2.testGetDisplayString());
         assertEquals("BLACK", p3.testGetDisplayString());

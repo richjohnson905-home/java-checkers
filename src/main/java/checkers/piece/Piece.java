@@ -56,6 +56,7 @@ public abstract class Piece {
 
     public void clearMoves() {
         moves.clear();
+        jumps.clear();
     }
 
     public ArrayList<Jump> getJumps() {

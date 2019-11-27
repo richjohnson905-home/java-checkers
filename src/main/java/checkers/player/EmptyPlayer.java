@@ -15,8 +15,8 @@ public class EmptyPlayer {
     }
 
     public void initPiece(Piece piece) {
-        board.updateBoard(piece);
         pieces.add((EmptyPiece)piece);
+        board.updateBoard(piece);
     }
 
     public void debugPrintEmpty() {

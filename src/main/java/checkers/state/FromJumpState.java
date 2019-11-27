@@ -5,23 +5,23 @@ import checkers.player.Player;
 
 import java.util.Scanner;
 
-public class ToState extends GameState {
+public class FromJumpState extends GameState {
 
-    public ToState(Player player) {
+    public FromJumpState(Player player) {
         super(player);
     }
 
     @Override
     public Player doPlay(Board board) {
 
-        System.out.println("TO STATE");
+        System.out.println("FROM JUMP STATE");
         Scanner myObj = new Scanner(System.in);
-        System.out.println("Select to-move number");
+        System.out.println("Select jump-from number");
         String choice = myObj.nextLine();
         try {
             int number = Integer.parseInt(choice);
-            player.setMoveToNumber(number, player.getPieces());
-            player.changeState(new MoveState(player));
+            player.setJumpFromNumber(number);
+            player.changeState(new ToJumpState(player));
 
         } catch (NumberFormatException e) {
             System.out.println("Number format exception");

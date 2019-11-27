@@ -13,6 +13,7 @@ public abstract class Player {
     // attributes
     ArrayList<Piece> pieces = new ArrayList<>(12);
     Move theMove;
+    Jump theJump;
     Player nextPlayer;
     GameState state;
     int moveNumber;
@@ -63,6 +64,10 @@ public abstract class Player {
         return theMove;
     }
 
+    public Jump getTheJump() {
+        return theJump;
+    }
+
     public void setNextPlayer(Player nextPlayer) {
         moveNumber = -1;
         this.nextPlayer = nextPlayer;
@@ -81,6 +86,7 @@ public abstract class Player {
                 if (leftOfEnemy.isEmpty()) {
                     Jump j = new Jump(p, (EmptyPiece)leftOfEnemy);
                     p.addJump(j, ctr);
+                    j.addJumpedPiece(left);
                     jump = true;
                 }
             }
@@ -89,6 +95,7 @@ public abstract class Player {
                 if (rightOfEnemy.isEmpty()) {
                     Jump j = new Jump(p, (EmptyPiece)rightOfEnemy);
                     p.addJump(j, ctr);
+                    j.addJumpedPiece(right);
                     jump = true;
                 }
             }
@@ -118,7 +125,7 @@ public abstract class Player {
         }
     }
 
-    public void setMoveFromNumber(int moveNumber, ArrayList<Piece> pieces) {
+    public void setMoveFromNumber(int moveNumber) {
         for (Piece r:pieces) {
             if (r.getMoveNumber() == moveNumber) {
                 r.setSelected();
@@ -135,7 +142,24 @@ public abstract class Player {
         this.moveNumber = moveNumber;
     }
 
-    public void setMoveToNumber(int moveNumber, ArrayList<Piece> pieces) {
+    public void setJumpFromNumber(int moveNumber) {
+        for (Piece r:pieces) {
+            if (r.getMoveNumber() == moveNumber) {
+                r.setSelected();
+                int ctr = 0;
+                for (Jump j:r.getJumps()) {
+                    if (j.getFrom().getMoveNumber() == moveNumber) {
+                        j.getEmptyTo().addJump(j, ctr++);
+                    }
+                }
+            } else {
+                r.setUnselected();
+            }
+        }
+        this.moveNumber = moveNumber;
+    }
+
+    public void setMoveToNumber(int moveNumber) {
         for (Piece r:pieces) {
             if (r.isSelected()) {
                 for (Move m : r.getMoves()) {
@@ -150,8 +174,24 @@ public abstract class Player {
         }
     }
 
-    public void clearMoves(ArrayList<Piece> pieces) {
+    public void setJumpToNumber(int moveNumber) {
+        for (Piece r:pieces) {
+            if (r.isSelected()) {
+                for (Jump j : r.getJumps()) {
+                    if (j.getEmptyTo().getMoveNumber() == moveNumber) {
+                        j.getEmptyTo().setSelected();
+                        theJump = j;
+                    } else {
+                        j.getEmptyTo().setUnselected();
+                    }
+                }
+            }
+        }
+    }
+
+    public void clearMoves() {
         theMove = null;
+        theJump = null;
         moveNumber = -1;
         for (Piece r:pieces) {
             r.clearMoves();

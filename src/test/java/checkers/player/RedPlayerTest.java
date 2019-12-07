@@ -54,7 +54,7 @@ public class RedPlayerTest {
     @Test
     public void testCoordMap() {
         Coord first = new Coord(0, 1);
-        assertEquals(board.getNumber(first).intValue(), 1);
+        assertEquals(board.testGetNumber(first).intValue(), 1);
     }
 
     @Test
@@ -74,6 +74,11 @@ public class RedPlayerTest {
         System.out.println("======================================");
         testObject.getTheJump().doJump(board);
         System.out.println(board);
+    }
+
+    @Test
+    public void testDoubleJump() {
+
     }
 
 }

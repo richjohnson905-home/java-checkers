@@ -11,7 +11,7 @@ public abstract class Piece {
     String color;
     String displayString;
     Coord coord;
-    ArrayList<Move> moves = new ArrayList<Move>();
+    ArrayList<Move> moves = new ArrayList<>();
     ArrayList<Jump> jumps = new ArrayList<Jump>();
     int moveNumber = -1;
 

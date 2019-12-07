@@ -16,7 +16,6 @@ public abstract class Player {
     Jump theJump;
     Player nextPlayer;
     GameState state;
-    int moveNumber;
     Board board;
 
     // abstract
@@ -34,12 +33,7 @@ public abstract class Player {
         if (state != null) {
             System.out.println("state: " + state.toString());
         }
-        System.out.println("moveNumber: " + moveNumber);
         System.out.println("base player: " + this.toString());
-    }
-
-    public ArrayList<Piece> getPieces() {
-        return pieces;
     }
 
     public Player getNextPlayer() {
@@ -68,8 +62,13 @@ public abstract class Player {
         return theJump;
     }
 
+    public void losePieces(Jump theJump) {
+        for (Piece p:theJump.getJumpedPieces()) {
+            pieces.remove(p);
+        }
+    }
+
     public void setNextPlayer(Player nextPlayer) {
-        moveNumber = -1;
         this.nextPlayer = nextPlayer;
         for (Piece p:pieces)
             p.clear();
@@ -78,23 +77,23 @@ public abstract class Player {
     public Boolean findJumps() {
         int ctr = 0;
         Boolean jump = false;
-        for(Piece p:pieces) {
-            Piece left = getLeft(p);
-            Piece right = getRight(p);
-            if (left.isEnemy(p)) {
+        for(Piece piece:pieces) {
+            Piece left = getLeft(piece);
+            Piece right = getRight(piece);
+            if (left.isEnemy(piece)) {
                 Piece leftOfEnemy = getLeft(left);
                 if (leftOfEnemy.isEmpty()) {
-                    Jump j = new Jump(p, (EmptyPiece)leftOfEnemy);
-                    p.addJump(j, ctr);
+                    Jump j = new Jump(piece, (EmptyPiece)leftOfEnemy);
+                    piece.addJump(j, ctr);
                     j.addJumpedPiece(left);
                     jump = true;
                 }
             }
-            if (right.isEnemy(p)) {
+            if (right.isEnemy(piece)) {
                 Piece rightOfEnemy = getRight(right);
                 if (rightOfEnemy.isEmpty()) {
-                    Jump j = new Jump(p, (EmptyPiece)rightOfEnemy);
-                    p.addJump(j, ctr);
+                    Jump j = new Jump(piece, (EmptyPiece)rightOfEnemy);
+                    piece.addJump(j, ctr);
                     j.addJumpedPiece(right);
                     jump = true;
                 }
@@ -108,16 +107,16 @@ public abstract class Player {
 
     public void findMoves() {
         int ctr = 0;
-        for(Piece p:pieces) {
-            Piece left = getLeft(p);
-            Piece right = getRight(p);
+        for(Piece piece:pieces) {
+            Piece left = getLeft(piece);
+            Piece right = getRight(piece);
             if (left.isEmpty()) {
-                Move m = new Move(p, (EmptyPiece)left);
-                p.addMove(m, ctr);
+                Move m = new Move(piece, (EmptyPiece)left);
+                piece.addMove(m, ctr);
             }
             if (right.isEmpty()) {
-                Move m = new Move(p, (EmptyPiece)right);
-                p.addMove(m, ctr);
+                Move m = new Move(piece, (EmptyPiece)right);
+                piece.addMove(m, ctr);
             }
             if (left.isEmpty() || right.isEmpty()) {
                 ctr++;
@@ -139,30 +138,28 @@ public abstract class Player {
                 r.setUnselected();
             }
         }
-        this.moveNumber = moveNumber;
     }
 
     public void setJumpFromNumber(int moveNumber) {
-        for (Piece r:pieces) {
-            if (r.getMoveNumber() == moveNumber) {
-                r.setSelected();
+        for (Piece piece:pieces) {
+            if (piece.getMoveNumber() == moveNumber) {
+                piece.setSelected();
                 int ctr = 0;
-                for (Jump j:r.getJumps()) {
+                for (Jump j:piece.getJumps()) {
                     if (j.getFrom().getMoveNumber() == moveNumber) {
                         j.getEmptyTo().addJump(j, ctr++);
                     }
                 }
             } else {
-                r.setUnselected();
+                piece.setUnselected();
             }
         }
-        this.moveNumber = moveNumber;
     }
 
     public void setMoveToNumber(int moveNumber) {
-        for (Piece r:pieces) {
-            if (r.isSelected()) {
-                for (Move m : r.getMoves()) {
+        for (Piece piece:pieces) {
+            if (piece.isSelected()) {
+                for (Move m : piece.getMoves()) {
                     if (m.getEmptyTo().getMoveNumber() == moveNumber) {
                         m.getEmptyTo().setSelected();
                         theMove = m;
@@ -192,7 +189,6 @@ public abstract class Player {
     public void clearMoves() {
         theMove = null;
         theJump = null;
-        moveNumber = -1;
         for (Piece r:pieces) {
             r.clearMoves();
         }

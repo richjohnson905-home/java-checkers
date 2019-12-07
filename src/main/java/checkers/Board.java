@@ -8,6 +8,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+// Coord Numbers
+/*
+  01  02  03  04
+05  06  07  08
+  09  10  11  12
+13  14  15  16
+  17  18  19  20
+21  22  23  24
+  25  26  27  28
+29  30  31  32
+ */
+
+// Coordinates
+/*
+0,0   0,1   0,2   0,3   0,4   0,5   0,6   0,7
+1,0   1,1   1,2   1,3   1,4   1,5   1,6   1,7
+2,0   2,1   2,2   2,3   2,4   2,5   2,6   2,7
+3,0 etc
+4,0
+5,0
+6,0
+7,0
+ */
+
 public class Board {
     Piece[][] board = new Piece[8][8];
     HashMap<Integer, Coord> coordMap = new HashMap<>();
@@ -70,15 +94,6 @@ public class Board {
         return coordMap.get(number);
     }
 
-    public Integer getNumber(Coord value) {
-        for (Map.Entry<Integer, Coord> entry : coordMap.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
-
     public void updateBoard(Piece piece) {
         board[piece.getCoord().getI()][piece.getCoord().getJ()] = piece;
     }
@@ -122,5 +137,15 @@ public class Board {
     public Piece testGetByNumber(int number) {
         Coord c = getCoord(number);
         return board[c.getI()][c.getJ()];
+    }
+
+
+    public Integer testGetNumber(Coord value) {
+        for (Map.Entry<Integer, Coord> entry : coordMap.entrySet()) {
+            if (Objects.equals(value, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

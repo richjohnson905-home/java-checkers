@@ -20,6 +20,7 @@ public class MakeJumpState extends GameState {
         String choice = myObj.nextLine();
 
         player.getTheJump().doJump(board);
+        player.getNextPlayer().losePieces(player.getTheJump());
         player.getNextPlayer().changeState(new FindMovesState(player.getNextPlayer()));
         return player.getNextPlayer();
     }

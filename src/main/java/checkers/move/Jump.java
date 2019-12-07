@@ -23,6 +23,10 @@ public class Jump extends MoveBase {
         jumpedPieces.add(p);
     }
 
+    public ArrayList<Piece> getJumpedPieces() {
+        return jumpedPieces;
+    }
+
     public void doJump(Board board) {
         EmptyPiece fromTmp = new EmptyPiece(from.getCoord());
         from.switchPlacesWith(to);
@@ -39,4 +43,6 @@ public class Jump extends MoveBase {
             board.updateBoard(e);
         }
     }
+
+
 }
